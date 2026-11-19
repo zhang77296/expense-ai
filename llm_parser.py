@@ -1,4 +1,6 @@
 # llm_parser.py
+from dotenv import load_dotenv
+load_dotenv() # 这行代码会自动把 .env 里的变量加载到环境里
 import json
 import os
 import re
