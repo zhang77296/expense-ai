@@ -1,5 +1,16 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from query_parser import answer_question
+
+
+
+class AskReq(BaseModel):
+    question: str
+
+@app.post("/query/ask")
+async def ask_question(req: AskReq):
+    result = answer_question(req.question)
+    return {"reply": result}
 import os
 from dotenv import load_dotenv
 
@@ -28,10 +39,16 @@ def set_budget():
 @app.get("/budget")
 def get_budget():
     return {"budget": 0}
+from query_parser import answer_question
+
+class AskReq(BaseModel):
+    question: str
 
 @app.post("/query/ask")
-def llm_ask():
-    return {"reply": ""}
+async def ask_question(req: AskReq):
+    result = answer_question(req.question)
+    return {"reply": result}
+
 
 if __name__ == "__main__":
     import uvicorn
