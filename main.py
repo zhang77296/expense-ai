@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from query_parser import answer_question
-
+app = FastAPI(title="记账AI")
 
 
 class AskReq(BaseModel):
@@ -15,7 +15,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-app = FastAPI(title="记账AI")
+
 
 @app.get("/health")
 def health():
