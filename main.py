@@ -33,16 +33,17 @@ def set_budget():
 @app.get("/budget")
 def get_budget():
     return {"budget": 0}
-from query_parser import answer_question
 
 class AskReq(BaseModel):
     question: str
 
 @app.post("/query/ask")
 async def ask_question(req: AskReq):
-    result = answer_question(req.question)
-    return {"reply": result}
-
+    try:
+        result = answer_question(req.question)
+        return {"reply": result}
+    except Exception as e:
+        return {"reply": f"暂时无法处理该查询，错误：{str(e)}"}
 
 if __name__ == "__main__":
     import uvicorn
