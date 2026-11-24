@@ -4,13 +4,7 @@ from query_parser import answer_question
 
 
 
-class AskReq(BaseModel):
-    question: str
 
-@app.post("/query/ask")
-async def ask_question(req: AskReq):
-    result = answer_question(req.question)
-    return {"reply": result}
 import os
 from dotenv import load_dotenv
 

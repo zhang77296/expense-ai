@@ -18,9 +18,12 @@ def parse_question(question):
 
 
 def answer_question(question):
-    day, category = parse_question(question)
-    total = daily_total(day, category)
-    return f"{day} 的{category}支出合计是 {total:.2f} 元。"
+    try:
+        day, category = parse_question(question)
+        total = daily_total(day, category)
+        return f"{day} 的{category}支出合计是 {total:.2f} 元。"
+    except Exception as error:
+        return "暂时不支持该类型查询，目前仅支持餐饮账单查询"
 
 
 if __name__ == "__main__":
