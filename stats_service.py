@@ -33,3 +33,20 @@ def monthly_total(year, month, category):
 if __name__ == "__main__":
     total = daily_total("2026-11-20", "餐饮")
     print(f"餐饮合计：{total:.2f} 元")
+def category_summary(start, end):
+    totals = {}
+
+    for row in database.list_expenses(start, end):
+        if start <= row["date"] < end:
+            category = row["category"]
+            totals[category] = totals.get(category, 0) + row["amount"]
+
+    grand_total = sum(totals.values())
+    ranked = sorted(totals.items(), key=lambda item: item[1], reverse=True)
+
+    return [
+        (category, round(amount, 2),
+         round(amount / grand_total * 100, 2) if grand_total else 0.0)
+        for category, amount in ranked
+    ]
+

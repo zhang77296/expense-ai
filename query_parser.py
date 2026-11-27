@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 
-from stats_service import daily_total, monthly_total
+from stats_service import daily_total, monthly_total, category_summary
 
 FOOD_WORDS = ("吃饭", "餐饮", "午饭", "晚饭")
 
@@ -21,6 +21,29 @@ def parse_question(question):
 
 
 def answer_question(question):
+    if "这个月" in question and "哪类" in question and "最多" in question:
+        start = date.today().replace(day=1)
+        end = (start + timedelta(days=31)).replace(day=1)
+        summary = category_summary(start.isoformat(), end.isoformat())
+
+        if not summary:
+            return "这个月还没有支出记录。"
+
+        category, amount, percent = summary[0]
+        return f"这个月花得最多的是{category}，共 {amount:.2f} 元，占总支出的 {percent:.2f}%。"
+    if "这个月" in question and "占比" in question:
+        start = date.today().replace(day=1)
+        end = (start + timedelta(days=31)).replace(day=1)
+        summary = category_summary(start.isoformat(), end.isoformat())
+
+        if not summary:
+            return "这个月还没有支出记录。"
+
+        parts = [
+            f"{category} {amount:.2f} 元，占 {percent:.2f}%"
+            for category, amount, percent in summary
+        ]
+        return " 这个月的分类支出为：" + "；".join(parts) + "。"
     if "这个月" in question or "上个月" in question:
         if not any(word in question for word in FOOD_WORDS):
             return "目前可以查询餐饮支出。"
