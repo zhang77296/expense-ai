@@ -26,9 +26,6 @@ class RecordItem(BaseModel):
 def add_expense(item: RecordItem):
     return {"ok": True, "data": item.dict()}
 
-@app.post("/expenses")
-def add_expense(item: RecordItem):
-    return {"ok": True, "data": item.dict()}
 
 @app.get("/expenses")
 def get_expenses():
