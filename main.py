@@ -32,7 +32,15 @@ def add_expense(item: RecordItem):
 
 @app.get("/expenses")
 def get_expenses():
-    return {"data": []}
+    import sqlite3
+    conn = sqlite3.connect("expense.db")
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM expenses")
+    rows = cur.fetchall()
+    res = [dict(row) for row in rows]
+    conn.close()
+    return {"data": res}
 
 @app.post("/budget")
 def set_budget():
