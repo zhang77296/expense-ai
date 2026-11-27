@@ -16,7 +16,15 @@ def health():
     return {"msg":"服务正常，访问 /docs 看接口"}
 
 class RecordItem(BaseModel):
-    content: str
+    amount: float
+    date: str
+    category: str
+    merchant: str | None = None
+    note: str | None = None
+
+@app.post("/expenses")
+def add_expense(item: RecordItem):
+    return {"ok": True, "data": item.dict()}
 
 @app.post("/expenses")
 def add_expense(item: RecordItem):
