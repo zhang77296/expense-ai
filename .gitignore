@@ -23,3 +23,7 @@ uploads/
 Thumbs.db
 desktop.ini
 
+.env
+*.db
+__pycache__/
+
